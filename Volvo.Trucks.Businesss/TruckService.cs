@@ -18,10 +18,10 @@ namespace Volvo.Trucks.Businesss
             _truckRepository = truckRepository;
         }
 
-        public void ChangeTruck(int truckId, ModelType model, int modelYear)
+        public void ChangeTruck(int truckId, ModelType model, int modelYear, int manufacturingYear)
         {
             int cYear = DateTime.Now.Year;
-            ValidateTruck(modelYear, cYear);
+            ValidateTruck(modelYear, cYear,manufacturingYear);
 
 
             Truck truck = _truckRepository.GetTruckById(truckId);
@@ -32,10 +32,10 @@ namespace Volvo.Trucks.Businesss
             _truckRepository.Update(truck);
         }
 
-        public Truck CreateTruck(ModelType model, int modelYear)
+        public Truck CreateTruck(ModelType model, int modelYear, int manufacturingYear)
         {
             int cYear = DateTime.Now.Year;
-            ValidateTruck(modelYear, cYear);
+            ValidateTruck(modelYear, cYear,manufacturingYear);
 
             Truck truck = new Truck();
             truck.Model = model;
@@ -44,11 +44,16 @@ namespace Volvo.Trucks.Businesss
             return _truckRepository.Create(truck);
         }
 
-        private static void ValidateTruck(int modelYear, int cYear)
+        private static void ValidateTruck(int modelYear, int cYear,int manufacturingYear)
         {
             if (modelYear != cYear && modelYear != cYear + 1)
             {
                 throw new ArgumentException("modelYear only accepts current year or subsequent");
+            }
+
+            if (manufacturingYear != DateTime.Now.Year)
+            {
+                throw new ArgumentException("manufacturing year only accpets current year");
             }
         }
 

@@ -56,7 +56,7 @@ namespace Volvo.Trucks.API.Controllers
             try
             {
                 var _mappedTruck = _mapper.Map<Truck>(truckdto);
-                var result = _truckService.CreateTruck(_mappedTruck.Model,_mappedTruck.ModelYear);
+                var result = _truckService.CreateTruck(_mappedTruck.Model,_mappedTruck.ModelYear,_mappedTruck.ManufactuirngYear);
                 var resultDTO = _mapper.Map<TruckDTO>(result);
                 return Ok(resultDTO);
             }
@@ -73,7 +73,7 @@ namespace Volvo.Trucks.API.Controllers
             try
             {
                 var _mappedTruck = _mapper.Map<Truck>(truckDTO);
-                _truckService.ChangeTruck(id, _mappedTruck.Model, truckDTO.ModelYear);
+                _truckService.ChangeTruck(id, _mappedTruck.Model, truckDTO.ModelYear,truckDTO.ManufacturingYear);
                 return NoContent();
             }
             catch (Exception ex)

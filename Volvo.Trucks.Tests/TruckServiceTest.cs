@@ -33,24 +33,31 @@ namespace Volvo.Trucks.Tests
         [Test]
         public void EnsureTruckOnlyAcceptCorrectModelYear()
         {
-            Assert.Throws<ArgumentException>(delegate { _truckService.CreateTruck(Domain.Enums.ModelType.FH, DateTime.Now.Year - 1); });
+            int year = DateTime.Now.Year;
+            Assert.Throws<ArgumentException>(delegate { _truckService.CreateTruck(Domain.Enums.ModelType.FH, year-1,year); });
             
         }
 
         [Test]
-        public void EnsureTruckAcceptCurretYearOnModelYear()
+        public void EnsureTruckOnlyAcceptCorrectManufacturingYear()
         {
-            var truck = _truckService.CreateTruck(Domain.Enums.ModelType.FH, DateTime.Now.Year);
+            int year = DateTime.Now.Year;
+            Assert.Throws<ArgumentException>(delegate { _truckService.CreateTruck(Domain.Enums.ModelType.FH, year, year+1); });
 
-            Assert.IsTrue(truck.Id > 0);
         }
 
-        [Test]
-        public void EnsureTruckCreatedWithCurrentManufactureYear()
-        {
-            var truck = _truckService.CreateTruck(Domain.Enums.ModelType.FH, DateTime.Now.Year);
+     
 
-            Assert.IsTrue(truck.ManufactuirngYear == DateTime.Now.Year);
+        [Test]
+        public void CanCreateAndUpdateTruck()
+        {
+            int year = DateTime.Now.Year;
+            var truckCreated = _truckService.CreateTruck(Domain.Enums.ModelType.FH, year,year);
+
+            _truckService.ChangeTruck(truckCreated.Id, Domain.Enums.ModelType.FM, year,year);
+
+            var truckUpdated = _truckService.GetById(truckCreated.Id);
+            Assert.IsTrue(truckCreated.Model == Domain.Enums.ModelType.FM);
         }
 
         

@@ -13,8 +13,8 @@ namespace Volvo.Trucks.Domain.Contracts.Services
 
         IList<Truck> GetAll();
         Truck GetById(int id);
-        Truck CreateTruck(ModelType model, int modelYear);
-        void ChangeTruck(int truckId, ModelType model, int modelYear);
+        Truck CreateTruck(ModelType model, int modelYear,int manufacturingYear);
+        void ChangeTruck(int truckId, ModelType model, int modelYear,int manufacturingYear);
         void DeleteTruck(Truck truck);
     }
 }
